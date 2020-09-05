@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.mvvm2.databinding.PageBinding
@@ -14,21 +15,31 @@ import com.example.mvvm2.viewmodel.DataViewModelFactory
 
 class PageFrgmt (var number : Int) : Fragment() {
 
+    companion object{
+        var  activityOwner  =   false
+    }
+
     lateinit
     var binding     :   PageBinding
 
     val viewModel   :   DataViewModel by lazy { initViewModel() }
-//    val viewModel   :   DataViewModel by viewModels()
+    val viewModel2  :   DataViewModel by viewModels()
+    val viewModel3  :   DataViewModel by activityViewModels()
 
     fun initViewModel() : DataViewModel{
-//        ViewModelProviders.of(this, DataViewModelFactory).get(DataViewModel::class.java)
-        return ViewModelProvider(this).get(DataViewModel::class.java)
+        return if (activityOwner){
+//            ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
+            ViewModelProvider(requireActivity(), DataViewModelFactory(requireContext())).get(DataViewModel::class.java)
+        }else{
+//            ViewModelProvider(this).get(DataViewModel::class.java)
+            ViewModelProvider(this,DataViewModelFactory(requireContext())).get(DataViewModel::class.java)
+        }
     }
 
     fun initBinding(){
         binding.lifecycleOwner = this
         binding.number = number
-        binding.data = viewModel.data
+        binding.data = viewModel2.loadData()
     }
 
     override fun onCreateView(

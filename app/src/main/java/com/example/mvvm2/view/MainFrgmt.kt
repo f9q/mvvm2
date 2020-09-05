@@ -6,29 +6,39 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mvvm2.databinding.FrgmtMainBinding
-import com.example.mvvm2.model.Data
 import com.example.mvvm2.viewmodel.DataViewModel
+import com.example.mvvm2.viewmodel.DataViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainFrgmt : Fragment(){
-
     lateinit var binding : FrgmtMainBinding
-    val data        : Data  by lazy {
-        Log.e("MainFrgmt","lazy init ")
-        val data = Data()
-        data.name = "data"
-        data
+
+    val viewModel   :   DataViewModel by lazy {initViewModel()}
+    val viewModel2  :   DataViewModel by viewModels()
+    val viewModel3  :   DataViewModel by activityViewModels()
+
+    fun initViewModel() : DataViewModel{
+//        return ViewModelProvider(this).get(DataViewModel::class.java)
+        return ViewModelProvider(requireActivity(),DataViewModelFactory(requireContext())).get(DataViewModel::class.java)
     }
-    var liveData    = MutableLiveData<Data>()
+
+
+    val checkedListener  =  object  : CompoundButton.OnCheckedChangeListener {
+        override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+            PageFrgmt.activityOwner = p1
+        }
+    }
 
     fun initPages(){
         val adapter = PageAdapter(childFragmentManager,lifecycle)
@@ -45,13 +55,9 @@ class MainFrgmt : Fragment(){
 
     fun initBinding() {
         Log.e("MainFrgmt","initBinding ")
-        binding.data = data
-
-        val data2 = Data()
-        data2.name = "live data"
-
-        liveData.value = data2
-        binding.liveData = liveData
+        binding.storeOwnerSwitch.setOnCheckedChangeListener(checkedListener)
+        binding.data = viewModel.loadData()
+        binding.liveData = viewModel.loadLiveData()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +101,7 @@ class MainFrgmt : Fragment(){
         }.attach()
     }
 
-    inner class PageAdapter (fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter( fragmentManager,lifecycle) {
+    class PageAdapter (fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter( fragmentManager,lifecycle) {
         var pages = ArrayList<Fragment>()
         fun addPage(page : Fragment){
             pages.add(page)

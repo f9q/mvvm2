@@ -31,7 +31,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:gravity="center"
-            android:text='@{@string/data_format(data.name,data.count),default=@string/data_format}'
+            android:text='@{@string/data_format(data.name,data.value),default=@string/data_format}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />

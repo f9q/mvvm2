@@ -29,10 +29,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:text='@{@string/data_format(data.name,data.count),default=@string/data_format}'
+            android:text='@{@string/data_format(data.name,data.value),default=@string/data_format}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -46,21 +46,21 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:text='@{@string/liveData_format(liveData.name,liveData.count),default=@string/liveData_format}'
+            android:text='@{@string/liveData_format(liveData.name,liveData.value),default=@string/liveData_format}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dataTv" />
 
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:id="@+id/tabs"
-            app:tabMode="scrollable"
+            android:layout_marginTop="32dp"
             android:background="#f8f8f8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/liveDataTv">
+            app:layout_constraintTop_toBottomOf="@+id/storeOwner"
+            app:tabMode="scrollable">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -86,6 +86,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tabs" />
+
+        <Switch
+            android:id="@+id/storeOwnerSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Switch"
+            app:layout_constraintBottom_toBottomOf="@+id/storeOwner"
+            app:layout_constraintEnd_toEndOf="@+id/liveDataTv"
+            app:layout_constraintTop_toTopOf="@+id/storeOwner" />
+
+        <TextView
+            android:id="@+id/storeOwner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:textSize="9sp"
+            android:text="下面每个Page的ViewModelStoreOwner开关，\n1.打开时使用activity,关闭使用fragment\n2."
+            app:layout_constraintEnd_toStartOf="@+id/storeOwnerSwitch"
+            app:layout_constraintStart_toStartOf="@+id/liveDataTv"
+            app:layout_constraintTop_toBottomOf="@+id/liveDataTv" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
