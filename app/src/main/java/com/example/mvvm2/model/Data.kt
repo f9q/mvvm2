@@ -11,7 +11,7 @@ import com.example.mvvm2.BR
 class Data : BaseObservable {
 
     var desc    =   ObservableField<String>()
-    var room    =   MutableLiveData<String>("主209")
+    var room    =   MutableLiveData("主209")
 
     constructor():super(){
         Log.e("MVVM_Data","constructor(), value = $value")

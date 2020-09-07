@@ -16,10 +16,9 @@ class DataModel {
     }
 
     fun initData() : Data{
-        val data = Data().apply {
+        return Data().apply {
             name = "Data"
         }
-        return data
     }
 
     fun loadData() : Data{
