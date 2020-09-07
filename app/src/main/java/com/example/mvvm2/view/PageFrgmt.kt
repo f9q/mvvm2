@@ -9,25 +9,33 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.example.mvvm2.databinding.PageBinding
 import com.example.mvvm2.viewmodel.DataViewModel
 import com.example.mvvm2.viewmodel.DataViewModelFactory
 
+
 class PageFrgmt (var number : Int) : Fragment() {
 
-    companion object{
-        var  activityOwner  =   false
-    }
+    companion object {  @JvmStatic var  VMSOwner  =   false }
 
     lateinit
     var binding     :   PageBinding
 
-    val viewModel   :   DataViewModel by lazy { initViewModel() }
-    val viewModel2  :   DataViewModel by viewModels()
-    val viewModel3  :   DataViewModel by activityViewModels()
+    val viewModel1  :   DataViewModel by lazy { initViewModel() }
+    val viewModel2  :   DataViewModel by activityViewModels(this::factory)
+    val viewModel3  :   DataViewModel by viewModels(this::ownerProducer,this::factory)
+
+
+    fun factory() : DataViewModelFactory{
+        return DataViewModelFactory(requireContext())
+    }
+    fun ownerProducer() : ViewModelStoreOwner {
+        return this
+    }
 
     fun initViewModel() : DataViewModel{
-        return if (activityOwner){
+        return if (VMSOwner){
 //            ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
             ViewModelProvider(requireActivity(), DataViewModelFactory(requireContext())).get(DataViewModel::class.java)
         }else{
@@ -39,7 +47,9 @@ class PageFrgmt (var number : Int) : Fragment() {
     fun initBinding(){
         binding.lifecycleOwner = this
         binding.number = number
-        binding.data = viewModel2.loadData()
+//        val viewModel2  :   DataViewModel by activityViewModels(this::factory)
+//        val viewModel3  :   DataViewModel by viewModels(this::ownerProducer,this::factory)
+        binding.data = if (VMSOwner) viewModel2.loadData() else viewModel3.loadData()
     }
 
     override fun onCreateView(
@@ -47,7 +57,7 @@ class PageFrgmt (var number : Int) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.e("MVVM_TAG","page $number onCreateView")
+        Log.e("MVVM_TAG","page $number onCreateView ,VMSOwner = $VMSOwner")
         binding = PageBinding.inflate(inflater,container,false)
         initBinding()
         return binding.root

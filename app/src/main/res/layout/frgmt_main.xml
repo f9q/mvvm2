@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <import type="com.example.mvvm2.model.Data" />
+        <variable name="VMSOwner" type="Boolean" />
         <variable name="data" type="com.example.mvvm2.model.Data" />
         <variable name="liveData" type="androidx.lifecycle.MutableLiveData&lt;Data>" />
     </data>
@@ -24,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/dataTv"
+            android:id="@+id/activityViewModel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -32,7 +33,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:text='@{@string/data_format(data.name,data.value),default=@string/data_format}'
+            android:text="@{@string/data_format(data.name,data.value),default=@string/data_format}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -49,7 +50,7 @@
             android:text='@{@string/liveData_format(liveData.name,liveData.value),default=@string/liveData_format}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dataTv" />
+            app:layout_constraintTop_toBottomOf="@+id/activityViewModel" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -91,7 +92,7 @@
             android:id="@+id/storeOwnerSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Switch"
+            android:text='@{VMSOwner ? "activity" : "fragment",default="fragment"}'
             app:layout_constraintBottom_toBottomOf="@+id/storeOwner"
             app:layout_constraintEnd_toEndOf="@+id/liveDataTv"
             app:layout_constraintTop_toTopOf="@+id/storeOwner" />
@@ -104,7 +105,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:textSize="9sp"
-            android:text="下面每个Page的ViewModelStoreOwner开关，\n1.打开时使用activity,关闭使用fragment\n2."
+            android:text="下面每个Page的ViewModelStoreOwner开关，\n1.打开时使用activity,关闭使用fragment\n2.value是静态成员，每构造一次自增1"
             app:layout_constraintEnd_toStartOf="@+id/storeOwnerSwitch"
             app:layout_constraintStart_toStartOf="@+id/liveDataTv"
             app:layout_constraintTop_toBottomOf="@+id/liveDataTv" />

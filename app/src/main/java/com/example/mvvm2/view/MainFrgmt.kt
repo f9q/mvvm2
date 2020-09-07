@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mvvm2.databinding.FrgmtMainBinding
@@ -25,9 +26,16 @@ class MainFrgmt : Fragment(){
     lateinit var binding : FrgmtMainBinding
 
     val viewModel   :   DataViewModel by lazy {initViewModel()}
-    val viewModel2  :   DataViewModel by viewModels()
-    val viewModel3  :   DataViewModel by activityViewModels()
+    val viewModel2  :   DataViewModel by activityViewModels(this::factory)
+    val viewModel3  :   DataViewModel by viewModels(this::ownerProducer,this::factory)
 
+
+    fun factory() : DataViewModelFactory{
+        return DataViewModelFactory(requireContext())
+    }
+    fun ownerProducer() : ViewModelStoreOwner {
+        return this
+    }
     fun initViewModel() : DataViewModel{
 //        return ViewModelProvider(this).get(DataViewModel::class.java)
         return ViewModelProvider(requireActivity(),DataViewModelFactory(requireContext())).get(DataViewModel::class.java)
@@ -36,7 +44,10 @@ class MainFrgmt : Fragment(){
 
     val checkedListener  =  object  : CompoundButton.OnCheckedChangeListener {
         override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
-            PageFrgmt.activityOwner = p1
+            PageFrgmt.VMSOwner = p1
+            binding.vmsOwner = p1
+//            Data.value = 100
+//            binding.invalidateAll()
         }
     }
 
@@ -56,7 +67,8 @@ class MainFrgmt : Fragment(){
     fun initBinding() {
         Log.e("MainFrgmt","initBinding ")
         binding.storeOwnerSwitch.setOnCheckedChangeListener(checkedListener)
-        binding.data = viewModel.loadData()
+        binding.vmsOwner = PageFrgmt.VMSOwner
+        binding.data = viewModel2.loadData()
         binding.liveData = viewModel.loadLiveData()
     }
 
