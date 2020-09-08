@@ -1,14 +1,14 @@
 package com.example.mvvm2.viewmodel
 
-import android.content.Context
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class DataViewModelFactory(var context : Context) : ViewModelProvider.Factory {
+class DataViewModelFactory(var args : Bundle) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DataViewModel::class.java)) {
-            return DataViewModel(context) as T
+            return DataViewModel(args) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -28,7 +28,7 @@ class PageFrgmt (var number : Int) : Fragment() {
 
 
     fun factory() : DataViewModelFactory{
-        return DataViewModelFactory(requireContext())
+        return DataViewModelFactory(Bundle())
     }
     fun ownerProducer() : ViewModelStoreOwner {
         return this
@@ -37,10 +37,10 @@ class PageFrgmt (var number : Int) : Fragment() {
     fun initViewModel() : DataViewModel{
         return if (VMSOwner){
 //            ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
-            ViewModelProvider(requireActivity(), DataViewModelFactory(requireContext())).get(DataViewModel::class.java)
+            ViewModelProvider(requireActivity(), DataViewModelFactory(Bundle())).get(DataViewModel::class.java)
         }else{
 //            ViewModelProvider(this).get(DataViewModel::class.java)
-            ViewModelProvider(this,DataViewModelFactory(requireContext())).get(DataViewModel::class.java)
+            ViewModelProvider(this,DataViewModelFactory(Bundle())).get(DataViewModel::class.java)
         }
     }
 

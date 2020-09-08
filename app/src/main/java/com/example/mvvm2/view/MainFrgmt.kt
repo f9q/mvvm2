@@ -31,14 +31,14 @@ class MainFrgmt : Fragment(){
 
 
     fun factory() : DataViewModelFactory{
-        return DataViewModelFactory(requireContext())
+        return DataViewModelFactory(Bundle())
     }
     fun ownerProducer() : ViewModelStoreOwner {
         return this
     }
     fun initViewModel() : DataViewModel{
 //        return ViewModelProvider(this).get(DataViewModel::class.java)
-        return ViewModelProvider(requireActivity(),DataViewModelFactory(requireContext())).get(DataViewModel::class.java)
+        return ViewModelProvider(requireActivity(),DataViewModelFactory(Bundle())).get(DataViewModel::class.java)
     }
 
 

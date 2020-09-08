@@ -1,11 +1,11 @@
 package com.example.mvvm2.viewmodel
 
-import android.content.Context
+import android.os.Bundle
 import androidx.databinding.Observable
 import androidx.lifecycle.ViewModel
 import com.example.mvvm2.model.DataModel
 
-class DataViewModel(var context: Context): ViewModel(),Observable {
+class DataViewModel(var args : Bundle): ViewModel(),Observable {
 
     val model = DataModel()
 
