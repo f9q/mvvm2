@@ -7,7 +7,7 @@ import com.example.mvvm2.model.DataModel
 
 class DataViewModel(var args : Bundle): ViewModel(),Observable {
 
-    val model = DataModel()
+    val model = DataModel(args)
 
     fun loadData() = model.loadData()
     fun loadLiveData() = model.loadLiveData()

@@ -3,15 +3,10 @@ package com.example.mvvm2.model
 import android.util.Log
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import com.example.mvvm2.BR
 
 
 class Data : BaseObservable {
-
-    var desc    =   ObservableField<String>()
-    var room    =   MutableLiveData("主209")
 
     constructor():super(){
         Log.e("MVVM_Data","constructor(), value = $value")

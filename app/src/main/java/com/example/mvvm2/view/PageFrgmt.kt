@@ -1,5 +1,6 @@
 package com.example.mvvm2.view
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -57,7 +58,7 @@ class PageFrgmt (var number : Int) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.e("MVVM_TAG","page $number onCreateView ,VMSOwner = $VMSOwner")
+        Log.e("MVVM_TAG","PageFrgmt page $number onCreateView ,VMSOwner = $VMSOwner")
         binding = PageBinding.inflate(inflater,container,false)
         initBinding()
         return binding.root
@@ -65,19 +66,31 @@ class PageFrgmt (var number : Int) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e("MVVM_TAG","PageFrgmt page $number onViewCreated")
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Log.e("MVVM_TAG","PageFrgmt page $number onActivityCreated")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.e("MVVM_TAG","PageFrgmt page $number onDestroyView")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.e("MVVM_TAG","page $number onDestroy")
+        Log.e("MVVM_TAG","PageFrgmt page $number onDestroy")
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.e("MVVM_TAG","PageFrgmt page $number onAttach")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Log.e("MVVM_TAG","page $number onDetach")
+        Log.e("MVVM_TAG","PageFrgmt page $number onDetach")
     }
 }
